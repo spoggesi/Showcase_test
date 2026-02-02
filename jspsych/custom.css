@@ -1,0 +1,522 @@
+/* ============================================================
+   CUSTOM.CSS - PREMIUM IAT DESIGN
+   ============================================================ */
+
+/* --- 1. GLOBAL RESET & TYPOGRAPHY --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  background-attachment: fixed;
+  /* FIX: Background stays put */
+  color: #333;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  /* Base height */
+  overflow-x: hidden;
+}
+
+/* OVERRIDE JSPSYCH DEFAULT CENTERING - FORCE BLOCK FLOW */
+.jspsych-display-element {
+  display: block !important;
+  /* Disable Flex centering completely */
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  /* Allow scrolling here */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- 2. LAYOUT E SCROLL --- */
+.jspsych-content-wrapper {
+  display: block !important;
+  /* Disable Flex centering completely */
+  width: 100% !important;
+  height: auto !important;
+  /* Let content dictate height */
+  margin: 0 !important;
+  padding: 5px 0 !important;
+  padding-top: 0 !important;
+  /* Normal padding */
+}
+
+/* FIX PER IAT: Quando siamo in modalità IAT (class aggiunta da JS), blocco totale */
+body.mobile-buttons-active {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden !important;
+}
+
+body.mobile-buttons-active .jspsych-content-wrapper {
+  padding: 0 !important;
+  height: 100% !important;
+  /* Restore flex for IAT centering only if needed, or keep block */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.jspsych-content {
+  width: 100%;
+  max-width: 1000px;
+  /* Wider constraint for desktop */
+  text-align: center;
+  margin: 0 auto !important;
+  /* Horizontally center the block */
+  padding: 0 20px 40px 20px;
+}
+
+/* --- 8. JS INJECTED HELPERS --- */
+.instruction-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  /* Soft shadow */
+  text-align: left;
+}
+
+.instruction-title {
+  color: #2d3436;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.instruction-text {
+  font-size: 1.2rem;
+  color: #636e72;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.key-visual-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.key-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 30px;
+  border-radius: 16px;
+  background: #f1f2f6;
+  border: 2px solid #dfe6e9;
+  min-width: 150px;
+}
+
+.key-box.green {
+  border-color: #2ecc71;
+  color: #2ecc71;
+  background: #eafaf1;
+}
+
+.key-box.red {
+  border-color: #e74c3c;
+  color: #c0392b;
+  background: #fdedec;
+}
+
+.key-box .key-code {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.key-box .key-desc {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* --- 3. MOBILE MODE SPECIFICS --- */
+body.mobile-active {
+  /* Allow scroll by default on mobile (e.g. for instructions) */
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- 4. TOUCH BUTTONS (PREMIUM STYLE & POSITIONING) --- */
+.mobile-iat-btn {
+  position: fixed !important;
+  bottom: 30px !important;
+  /* Raised per user reference */
+  width: 140px !important;
+  height: 140px !important;
+  /* Circle dimensions */
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 2147483647 !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  /* Text Styling */
+  color: #000000 !important;
+  /* Black text */
+  font-family: 'Arial', sans-serif !important;
+  font-size: 1.8rem !important;
+  /* Larger font */
+  font-weight: 800 !important;
+  text-transform: uppercase;
+
+  /* Round White Style */
+  background-color: #ffffff !important;
+  border: 4px solid #cccccc !important;
+  /* Default border */
+  border-radius: 50% !important;
+  /* Perfect circle */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s, background-color 0.1s;
+}
+
+.btn-left {
+  left: 20px !important;
+  border-color: #cccccc !important;
+  /* Neutral by default */
+}
+
+/* JS will add specific Green/Red borders if needed, or we hardcode them here? 
+   User reference had "border: 4px solid #cccccc". 
+   BUT User instructions said "Green for Left, Red for Right".
+   Let's keep the user reference logic: White button, Grey border. 
+   BUT wait, my previous code had useful color cues. 
+   User said "I need that... similar to... this css".
+   The CSS provided had "border: 4px solid #cccccc".
+   However, common IAT needs Red/Green cues. 
+   I will add the colors as subtle border colors or just stick to grey if user insists on "similar to this css".
+   Actually, let's compromise: Grey border but Green/Red text? Or Green/Red border is better for usability.
+   I will set specific borders for Left/Right as I did before, it is better UX.
+*/
+.btn-left {
+  left: 20px !important;
+  border-color: #2ecc71 !important;
+  /* Green connection */
+}
+
+.btn-right {
+  right: 20px !important;
+  border-color: #e74c3c !important;
+  /* Red connection */
+}
+
+/* TABLET SPECIFIC: Make them larger/easier to hit */
+@media (min-width: 600px) and (max-width: 1200px) {
+  .mobile-iat-btn {
+    width: 180px !important;
+    height: 180px !important;
+    font-size: 2.2rem !important;
+    bottom: 40px !important;
+  }
+}
+
+/* Active State (Touch Feedback) */
+.mobile-iat-btn:active {
+  background-color: #e0e0e0 !important;
+  /* Grey on tap */
+  transform: scale(0.95) !important;
+}
+
+
+/* --- 5. STIMULUS STYLING --- */
+
+/* Header (Prompt) */
+.iat-header {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #636e72;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* Middle Word/Stimulus */
+.iat-stimulus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  /* Big and bold */
+  font-weight: 800;
+  color: #2d3436;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer (Key Instructions for Desktop) */
+.iat-footer-desktop {
+  position: absolute;
+  bottom: 20%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 150px;
+}
+
+.key-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.key-cap {
+  background: #dfe6e9;
+  border-bottom: 4px solid #b2bec3;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-family: 'Inter', monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d3436;
+  min-width: 60px;
+  text-align: center;
+}
+
+.key-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #636e72;
+}
+
+/* --- 6. STANDARD BUTTONS (jsPsych generic) --- */
+.jspsych-btn {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%) !important;
+  color: white !important;
+  padding: 15px 40px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  border-radius: 50px !important;
+  /* Pill shape */
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4) !important;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  /* Ensure it flows in document flow by default */
+  position: relative !important;
+  z-index: 1000;
+  margin-top: 50px;
+  /* Space from content */
+}
+
+.jspsych-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.6) !important;
+}
+
+.jspsych-btn:active {
+  transform: translateY(1px);
+}
+
+/* Fix for "Continue" button overlapping mobile controls */
+body.mobile-active .jspsych-btn {
+  /* IMPORTANT: Remove fixed positioning to avoid overlap */
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 30px auto !important;
+  display: block;
+  z-index: 1000;
+}
+
+/* --- 7. UTILITIES --- */
+.hidden {
+  display: none !important;
+}
+
+.sample-block {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  /* Glass effect */
+  border-radius: 16px;
+  padding: 10px 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  margin: 10px auto;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin-top: 0 !important;
+  /* Attacca il blocco bianco al soffitto */
+  padding-top: 15px !important;
+  /* Riduci il respiro interno superiore */
+}
+
+/* Riduciamo il margine del titolo della domanda */
+.jspsych-survey-likert-statement {
+  margin-bottom: 10px !important;
+  padding: 0 !important;
+}
+
+/* --- MEDIA QUOTES --- */
+@media (max-width: 600px) {
+  .iat-stimulus {
+    font-size: 3rem;
+    /* Slightly smaller on mobile */
+  }
+
+  .iat-header {
+    font-size: 1.4rem;
+    top: 10%;
+  }
+}
+
+/* --- 3. LIKERT SCALE (Sensory Fix - TARGETED CLASS) --- */
+/* Target ONLY the sensory scales with our new class */
+.rata-visiva-scale .jspsych-survey-likert-statement {
+  margin-bottom: 20px !important;
+}
+
+.rata-visiva-scale .jspsych-survey-likert-opts {
+  list-style: none;
+  padding: 0 !important;
+  margin: 30px auto !important;
+  /* User requested keeping this margin */
+
+  /* GRID LAYOUT: The only way to guarantee 6 equal columns */
+  display: grid !important;
+  grid-template-columns: repeat(6, 16.666%) !important;
+  column-gap: 0 !important;
+  align-items: start !important;
+  justify-items: center !important;
+
+  width: 100% !important;
+  max-width: 800px !important;
+  position: relative !important;
+  background: transparent !important;
+  z-index: 1;
+}
+
+/* Background Line */
+.rata-visiva-scale .jspsych-survey-likert-opts::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 7% !important;
+  width: 86% !important;
+  height: 2px;
+  background-color: #dcdde1;
+  z-index: -1;
+  display: block !important;
+}
+
+/* Clear legacy styles for items */
+.rata-visiva-scale .jspsych-survey-likert-opts li {
+  float: none !important;
+  width: auto !important;
+  /* Let Grid control width */
+  margin: 0 !important;
+  padding: 0 !important;
+
+  /* Stack Radio -> Label */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+/* RADIO BUTTON: Mantieni i cerchi bloccati al centro della griglia */
+.rata-visiva-scale .jspsych-survey-likert-opts input[type="radio"] {
+  width: 26px !important;
+  height: 26px !important;
+  /* Centra il cerchio orizzontalmente ed elimina margini che lo spostano */
+  margin: 0 auto 10px auto !important;
+  padding: 0 !important;
+  background-color: #fdfbfb !important;
+  border: 2px solid #bdc3c7 !important;
+  z-index: 10;
+  display: block !important;
+  transform: translateX(-13px) !important;
+  /* NON usare transform qui, o sposterai i cerchi rispetto alla linea */
+}
+
+/* LABELS & NUMBERS: Gestione dei testi */
+.rata-visiva-scale .jspsych-survey-likert-opts li label {
+  width: 100% !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #2d3436 !important;
+  line-height: 1.1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* Fix per gli SPAN (Testi e Numeri) */
+.rata-visiva-scale .jspsych-survey-likert-opts li label span {
+  display: block;
+  /* RIMUOVI il translateX globale da qui per ripristinare la centratura base */
+  transform: translateX(-2px) !important;
+}
+
+/* Muove a DESTRA l'intera PRIMA colonna (Radio + Testo "Assente") */
+.rata-visiva-scale .jspsych-survey-likert-opts li:first-child {
+  transform: translateX(-25px) !important;
+  /* Aumenta i px per distanziarlo di più dal secondo calice e arrivare ai 3cm */
+}
+
+/* Muove a DESTRA l'intera PRIMA colonna (Radio + Testo "Assente") */
+.rata-visiva-scale .jspsych-survey-likert-opts li:last-child {
+  transform: translateX(-15px) !important;
+  /* Aumenta i px per distanziarlo di più dal secondo calice e arrivare ai 3cm */
+}
+
+/* Muove a DESTRA solo il testo dell'ancora "Assente" */
+.rata-visiva-scale .jspsych-survey-likert-opts li:first-child label span {
+  transform: translateX(15px) !important;
+}
+
+/* Muove a DESTRA solo il testo dell'ancora "Molto Intenso" */
+.rata-visiva-scale .jspsych-survey-likert-opts li:last-child label span {
+  transform: translateX(27px) !important;
+}
+
+/* Reset any specific number styling */
+.rata-visiva-scale .rata-num {
+  margin: 0 !important;
+  font-size: 1rem !important;
+}
+
+/* Container per il grafico */
+.chart-container {
+  position: relative;
+  margin: 0 auto 30px auto;
+  height: 350px;
+  width: 350px;
+  /* Quadrato per il Radar */
+}
+
+/* Stile per le card dei risultati */
+.bfi-feedback-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
