@@ -44,5 +44,5 @@ If you encounter issues during setup, check the following:
 This project is licensed under the **Apache 2.0 License**.
 
 ---
-**Created by [Simone Poggesi R&D Manager Giotto Wine Listeners]**
+**Created by Simone Poggesi R&D Manager Giotto Wine Listeners**
 **✉️ sensoriale@giottoconsulting.it 📞 +39 0438 971719**
