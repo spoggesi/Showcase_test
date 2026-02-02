@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>3. Profilo Sensoriale</title>
+    <link href="jspsych/jspsych.css" rel="stylesheet" />
+    <link href="jspsych/custom.css" rel="stylesheet" />
+
+    <script src="jatos.js"></script>
+    <script src="jspsych/jspsych.js"></script>
+    <script src="jspsych/plugins/plugin-html-button-response.js"></script>
+    <script src="jspsych/plugins/plugin-html-slider-response.js"></script>
+    <script src="jspsych/plugins/plugin-survey-likert.js"></script>
+
+    <script src="js/sensory.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <div class="jspsych-content-wrapper">
+        <div id="jspsych-content" class="jspsych-content"></div>
+    </div>
+
+    <script>
+        const DEMO_CODE = "DEMO_01"; 
+        const DEMO_ATTRIBUTES = {
+            visual: ["Limpidezza", "Intensità Colore"],
+            olfactory: ["Intensità", "Fruttato", "Floreale"],
+            gustatory: ["Acidità", "Corpo", "Equilibrio"],
+            retroOlfactory: ["Persistenza", "Retrogusto Fruttato"]
+        };
+
+        jatos.onLoad(() => {
+            // FIX: Variabile Globale
+            window.jsPsych = initJsPsych({
+                on_finish: () => {
+                    var resultJson = jsPsych.data.get().json();
+                    // Salva e passa al prossimo (Intervista)
+                    jatos.submitResultData(resultJson, jatos.startNextComponent);
+                }
+            });
+
+            const timeline = [];
+            
+            // 1. Intro Sensoriale
+            if (typeof generateSensoryIntro === 'function') {
+                timeline.push(generateSensoryIntro());
+            }
+
+            // 2. Task RATA
+            if (typeof generateSensoryTrials === 'function') {
+                // Ricorda lo spread operator (...)
+                timeline.push(...generateSensoryTrials(0, DEMO_CODE, DEMO_ATTRIBUTES));
+            }
+
+            jsPsych.run(timeline);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>7. Conclusione e Contatti</title>
+
+    <link href="jspsych/jspsych.css" rel="stylesheet" />
+    <link href="jspsych/custom.css" rel="stylesheet" />
+
+    <script src="jatos.js"></script>
+    <script src="jspsych/jspsych.js"></script>
+
+    <script src="jspsych/plugins/plugin-html-button-response.js"></script>
+    <script src="jspsych/plugins/plugin-survey-html-form.js"></script>
+
+    <script src="js/final_page.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <div class="jspsych-content-wrapper">
+        <div id="jspsych-content" class="jspsych-content"></div>
+    </div>
+
+    <script>
+        jatos.onLoad(() => {
+            // Inizializzazione jsPsych
+            window.jsPsych = initJsPsych({
+                on_finish: () => {
+                    var resultJson = jsPsych.data.get().json();
+                    // Invio dati a JATOS e chiusura studio
+                    jatos.submitResultData(resultJson, jatos.endStudy);
+                }
+            });
+
+            const timeline = [];
+
+            // 1. Fase Lead Generation (Ti è piaciuto? Lascia la mail)
+            // Questa funzione deve essere definita in js/final_page.js
+            if (typeof generateContactPage === 'function') {
+                timeline.push(generateContactPage());
+            }
+
+            // 2. Fase Ringraziamenti Finali e Logo
+            // Questa funzione deve essere definita in js/final_page.js
+            if (typeof generateFinalPage === 'function') {
+                timeline.push(generateFinalPage());
+            } else {
+                // Fallback di sicurezza
+                timeline.push({
+                    type: jsPsychHtmlButtonResponse,
+                    stimulus: "<h1>Grazie</h1><p>Lo studio è terminato con successo.</p>",
+                    choices: []
+                });
+            }
+
+            // Avvio della sequenza
+            jsPsych.run(timeline);
+        });
+    </script>
+</body>
+
+</html>

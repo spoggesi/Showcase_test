@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>5. Big Five Traits</title>
+    <link href="jspsych/jspsych.css" rel="stylesheet" />
+    <link href="jspsych/custom.css" rel="stylesheet" />
+
+    <script src="jatos.js"></script>
+    <script src="jspsych/jspsych.js"></script>
+    <script src="jspsych/plugins/plugin-html-button-response.js"></script>
+    <script src="jspsych/plugins/plugin-survey-html-form.js"></script>
+
+    <script src="js/survey.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <div class="jspsych-content-wrapper">
+        <div id="jspsych-content" class="jspsych-content"></div>
+    </div>
+
+    <script>
+        jatos.onLoad(() => {
+            // FIX: Variabile Globale
+            window.jsPsych = initJsPsych({
+                on_finish: () => {
+                    var resultJson = jsPsych.data.get().json();
+                    // Salva e passa al prossimo (Demografici)
+                    jatos.submitResultData(resultJson, jatos.startNextComponent);
+                }
+            });
+
+            const timeline = [];
+
+            // 1. Intro Survey
+            if (typeof generateSurveyIntro === 'function') {
+                timeline.push(generateSurveyIntro());
+            }
+
+            // 2. Task Big 5
+            if (typeof surveyTimelineBlock !== 'undefined') {
+                timeline.push(surveyTimelineBlock);
+            }
+
+            // 3. Feedback Big 5
+            if (typeof generateBigFiveFeedback === 'function') {
+                timeline.push(generateBigFiveFeedback());
+            }
+
+            jsPsych.run(timeline);
+        });
+    </script>
+</body>
+
+</html>

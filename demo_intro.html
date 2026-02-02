@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>1. Introduzione</title>
+    <link href="jspsych/jspsych.css" rel="stylesheet" />
+    <link href="jspsych/custom.css" rel="stylesheet" />
+    
+    <script src="jatos.js"></script>
+    <script src="jspsych/jspsych.js"></script>
+    <script src="jspsych/plugins/plugin-html-button-response.js"></script>
+    <script src="jspsych/plugins/signature_pad.umd.min.js"></script>
+    
+    <script src="js/demo_intro.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <div class="jspsych-content-wrapper">
+        <div id="jspsych-content" class="jspsych-content"></div>
+    </div>
+
+    <script>
+        jatos.onLoad(() => {
+            // FIX: Variabile Globale
+            window.jsPsych = initJsPsych({
+                on_finish: () => {
+                    var resultJson = jsPsych.data.get().json();
+                    // Salva e passa al componente successivo (IAT)
+                    jatos.submitResultData(resultJson, jatos.startNextComponent);
+                }
+            });
+
+            const timeline = [];
+            
+            if (typeof consentTrial !== 'undefined') {
+                timeline.push(consentTrial);
+            } else {
+                timeline.push({
+                    type: jsPsychHtmlButtonResponse,
+                    stimulus: "<h1>Errore caricamento intro</h1>",
+                    choices: []
+                });
+            }
+
+            jsPsych.run(timeline);
+        });
+    </script>
+</body>
+</html>

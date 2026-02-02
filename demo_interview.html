@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. Video Intervista AI</title>
+    
+    <link href="jspsych/jspsych.css" rel="stylesheet" />
+    <link href="jspsych/custom.css" rel="stylesheet" />
+
+    <script src="jatos.js"></script>
+    <script src="jspsych/jspsych.js"></script>
+    <script src="jspsych/plugins/plugin-html-button-response.js"></script>
+
+    <script src="js/mock_interview.js"></script>
+    <script src="js/real_interview.js"></script>
+    <script src="js/interview_chooser.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    
+    <div class="jspsych-content-wrapper">
+        <div id="jspsych-content" class="jspsych-content"></div>
+    </div>
+
+    <script>
+        const DEMO_CODE = "DEMO_01"; 
+
+        jatos.onLoad(() => {
+            // Inizializzazione Standard
+            window.jsPsych = initJsPsych({
+                on_finish: () => {
+                    var resultJson = jsPsych.data.get().json();
+                    jatos.submitResultData(resultJson, jatos.startNextComponent);
+                }
+            });
+
+            const timeline = [];
+
+            // 1. Intro
+            if (typeof generateInterviewIntro === 'function') {
+                timeline.push(generateInterviewIntro());
+            }
+            
+            // 2. Selettore
+            if (typeof generateInterviewSelection === 'function') {
+                timeline.push(...generateInterviewSelection(DEMO_CODE));
+            } else {
+                if (typeof createMockVideoTrial === 'function') {
+                    timeline.push(createMockVideoTrial(DEMO_CODE));
+                }
+            }
+
+            jsPsych.run(timeline);
+        });
+    </script>
+</body>
+</html>
