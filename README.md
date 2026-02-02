@@ -45,4 +45,4 @@ This project is licensed under the **Apache 2.0 License**.
 
 ---
 **Created by Simone Poggesi R&D Manager Giotto Wine Listeners**
-**✉️ sensoriale@giottoconsulting.it 📞 +39 0438 971719**
+**✉️ s.poggesi@giottoconsulting.it 📞 +39 352 0118420**
